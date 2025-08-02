@@ -2,21 +2,19 @@ import dbConnect from '@/lib/dbConnect';
 import UserModel from '@/model/User';
 import { z } from 'zod';
 import { usernameValidation } from '@/schemas/signUpSchema';
+import { NextRequest } from 'next/server'; // ✅ Use NextRequest
 
 const UsernameQuerySchema = z.object({
   username: usernameValidation,
 });
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
   await dbConnect();
 
   try {
-    const { searchParams } = new URL(request.url);
-    const queryParams = {
-      username: searchParams.get('username'),
-    };
+    const username = request.nextUrl.searchParams.get('username'); // ✅ Static-friendly
 
-    const result = UsernameQuerySchema.safeParse(queryParams);
+    const result = UsernameQuerySchema.safeParse({ username });
 
     if (!result.success) {
       const usernameErrors = result.error.format().username?._errors || [];
@@ -24,7 +22,7 @@ export async function GET(request: Request) {
         {
           success: false,
           message:
-            usernameErrors?.length > 0
+            usernameErrors.length > 0
               ? usernameErrors.join(', ')
               : 'Invalid query parameters',
         },
@@ -32,10 +30,10 @@ export async function GET(request: Request) {
       );
     }
 
-    const { username } = result.data;
+    const { username: validatedUsername } = result.data;
 
     const existingVerifiedUser = await UserModel.findOne({
-      username,
+      username: validatedUsername,
       isVerified: true,
     });
 
