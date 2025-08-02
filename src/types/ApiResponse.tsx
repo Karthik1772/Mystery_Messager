@@ -1,6 +1,7 @@
 import{Message} from "@/model/user"
 export interface ApiResponse{
-    sucess:boolean;
+    success:boolean;
     message:string;
-    isAcceptingMessage?:boolean
+    isAcceptingMessage?:boolean;
+    messages?:Array<Message>;
 }
