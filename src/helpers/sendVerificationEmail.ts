@@ -1,20 +1,19 @@
-import { resend } from "@/lib/resend";
+// import { resend } from "@/lib/resend";
+import {transporter} from '@/lib/nodemailer';
 import VerificationEmail from "../../emails/VerificationEmail";
 import { ApiResponse } from '@/types/ApiResponse';
-
 export async function sendVerificationEmail(
   email: string,
   username: string,
   verifyCode: string
 ): Promise<ApiResponse> {
   try {
-    const res = await resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: email,
-      subject: 'Mystery Message Verification Code',
-      react: VerificationEmail({ username, otp: verifyCode }),
+    const res = await transporter.sendMail({
+      from: `"Mystery Message" ${process.env.NODEMAILER_USER_EMAIL}`,  
+      to: email, 
+      subject: "Mystery Message Verification Code ", 
+      text: `Your verification code is: ${verifyCode}`,
     });
-    console.log('Email sent successfully:', res);
     return { success: true, message: 'Verification email sent successfully.' };
   } catch (emailError) {
     console.error('Error sending verification email:', emailError);
