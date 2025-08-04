@@ -125,7 +125,7 @@ export default function Home() {
             <CarouselContent>
               {messages.map((message, index) => (
                 <CarouselItem key={index} className="p-4">
-                  <Card className={`transition-colors duration-300 border-2 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 ${isDark
+                  <Card className={`border-2 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 ${isDark
                       ? 'bg-slate-800 border-slate-700 hover:border-amber-400/50 hover:shadow-amber-400/10'
                       : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-blue-100'
                     }`}>
