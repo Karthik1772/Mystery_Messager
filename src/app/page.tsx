@@ -54,14 +54,14 @@ export default function Home() {
     <>
       {/* Main content */}
       <main className={`flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 transition-colors duration-300 relative overflow-hidden ${isDark
-          ? 'bg-slate-900 text-white'
-          : 'bg-gray-50 text-gray-900'
+        ? 'bg-slate-900 text-white'
+        : 'bg-gray-50 text-gray-900'
         }`}>
 
         {/* Animated background elements */}
         <div className={`absolute inset-0 opacity-10 ${isDark
-            ? 'bg-gradient-to-br from-amber-400/10 via-transparent to-orange-400/10'
-            : 'bg-gradient-to-br from-blue-400/10 via-transparent to-purple-400/10'
+          ? 'bg-gradient-to-br from-amber-400/10 via-transparent to-orange-400/10'
+          : 'bg-gradient-to-br from-blue-400/10 via-transparent to-purple-400/10'
           }`}></div>
 
         {/* Floating decorative elements */}
@@ -74,15 +74,15 @@ export default function Home() {
           <section className="text-center mb-8 md:mb-12">
             {/* Hero icon */}
             <div className={`mx-auto w-20 h-20 rounded-full flex items-center justify-center mb-6 transition-colors duration-300 ${isDark
-                ? 'bg-amber-400/20 text-amber-400'
-                : 'bg-blue-500/20 text-blue-500'
+              ? 'bg-amber-400/20 text-amber-400'
+              : 'bg-blue-500/20 text-blue-500'
               }`}>
               <MessageSquare className="w-10 h-10" />
             </div>
 
             <h1 className={`text-3xl md:text-5xl font-bold mb-4 transition-colors duration-300 ${isDark
-                ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
-                : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
+              ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
+              : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
               }`}>
               Dive into the World of Anonymous Message
             </h1>
@@ -94,22 +94,22 @@ export default function Home() {
 
             {/* Visual separator */}
             <div className={`h-px mx-auto w-32 mt-6 mb-8 transition-colors duration-300 ${isDark
-                ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
-                : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
+              ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
+              : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
               }`}></div>
 
             {/* Feature highlights */}
             <div className="flex flex-wrap justify-center gap-6 mb-8">
               <div className={`flex items-center space-x-2 px-4 py-2 rounded-full border transition-colors duration-300 ${isDark
-                  ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
-                  : 'bg-white/50 border-blue-300/50 text-blue-600'
+                ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
+                : 'bg-white/50 border-blue-300/50 text-blue-600'
                 }`}>
                 <Shield className="w-4 h-4" />
                 <span className="text-sm font-medium">100% Anonymous</span>
               </div>
               <div className={`flex items-center space-x-2 px-4 py-2 rounded-full border transition-colors duration-300 ${isDark
-                  ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
-                  : 'bg-white/50 border-blue-300/50 text-blue-600'
+                ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
+                : 'bg-white/50 border-blue-300/50 text-blue-600'
                 }`}>
                 <Users className="w-4 h-4" />
                 <span className="text-sm font-medium">Secure & Private</span>
@@ -122,13 +122,17 @@ export default function Home() {
             <Carousel
               plugins={[Autoplay({ delay: 3000 })]}
               className="w-full max-w-lg md:max-w-xl"
+              opts={{
+                align: "start",
+                loop: true,
+              }}
             >
               <CarouselContent>
                 {messages.map((message, index) => (
                   <CarouselItem key={index} className="p-4">
-                    <Card className={`border-2 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 ${isDark
-                        ? 'bg-slate-800 border-slate-700 hover:border-amber-400/50 hover:shadow-amber-400/10'
-                        : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-blue-100'
+                    <Card className={`border-2 transition-colors duration-300 ${isDark
+                      ? 'bg-slate-800 border-slate-700'
+                      : 'bg-white border-gray-200'
                       }`}>
                       <CardHeader className="pb-3">
                         <CardTitle className={`transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
@@ -136,14 +140,14 @@ export default function Home() {
                           {message.title}
                         </CardTitle>
                         <div className={`h-px transition-colors duration-300 ${isDark
-                            ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
-                            : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
+                          ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
+                          : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
                           }`}></div>
                       </CardHeader>
                       <CardContent className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-4">
                         <div className={`flex-shrink-0 p-2 rounded-full transition-colors duration-300 ${isDark
-                            ? 'bg-amber-400/20 text-amber-400'
-                            : 'bg-blue-500/20 text-blue-500'
+                          ? 'bg-amber-400/20 text-amber-400'
+                          : 'bg-blue-500/20 text-blue-500'
                           }`}>
                           <Mail className="w-4 h-4" />
                         </div>
@@ -166,16 +170,6 @@ export default function Home() {
                   </CarouselItem>
                 ))}
               </CarouselContent>
-
-              {/* Custom carousel navigation */}
-              <CarouselPrevious className={`transition-colors duration-300 ${isDark
-                  ? 'bg-slate-700 hover:bg-slate-600 border-amber-400/30 text-amber-400'
-                  : 'bg-white hover:bg-gray-100 border-blue-300 text-blue-500'
-                }`} />
-              <CarouselNext className={`transition-colors duration-300 ${isDark
-                  ? 'bg-slate-700 hover:bg-slate-600 border-amber-400/30 text-amber-400'
-                  : 'bg-white hover:bg-gray-100 border-blue-300 text-blue-500'
-                }`} />
             </Carousel>
           </div>
 
@@ -183,8 +177,8 @@ export default function Home() {
           <div className="text-center mt-12">
             <Link href="/sign-up">
               <Button className={`transition-all duration-300 hover:scale-105 font-semibold px-8 py-3 text-lg ${isDark
-                  ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
+                ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                : 'bg-blue-500 hover:bg-blue-600 text-white'
                 }`}>
                 Get Started Today
               </Button>
@@ -199,8 +193,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className={`text-center p-4 md:p-6 transition-colors duration-300 border-t-2 ${isDark
-          ? 'bg-slate-800 text-gray-300 border-amber-400'
-          : 'bg-gray-100 text-gray-600 border-blue-500'
+        ? 'bg-slate-800 text-gray-300 border-amber-400'
+        : 'bg-gray-100 text-gray-600 border-blue-500'
         }`}>
         <div className="flex justify-center items-center space-x-2">
           <MessageSquare className={`w-5 h-5 ${isDark ? 'text-amber-400' : 'text-blue-500'

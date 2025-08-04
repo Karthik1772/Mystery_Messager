@@ -55,18 +55,22 @@ export default function SignInForm() {
     };
   }, []);
 
-  // Save theme preference and apply to document
+  // Only read theme, don't manage DOM classes (let Navbar handle this)
   useEffect(() => {
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    const handleThemeChange = () => {
+      const currentTheme = localStorage.getItem('theme');
+      if (currentTheme) {
+        setIsDark(currentTheme === 'dark');
+      }
+    };
 
-    // Dispatch custom event to notify other components of theme change
-    window.dispatchEvent(new CustomEvent('themeChange'));
-  }, [isDark]);
+    // Listen for custom theme change events
+    window.addEventListener('themeChange', handleThemeChange);
+
+    return () => {
+      window.removeEventListener('themeChange', handleThemeChange);
+    };
+  }, []);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -114,16 +118,16 @@ export default function SignInForm() {
   return (
     <div className={`flex justify-center items-center min-h-screen transition-colors duration-300 ${isDark ? 'bg-slate-800' : 'bg-gray-100'
       }`}>
-      <div className={`w-full max-w-md p-8 space-y-8 rounded-lg shadow-lg transition-colors duration-300 ${isDark ? 'bg-slate-700' : 'bg-white'
+      <div className={`relative w-full max-w-md p-8 space-y-8 rounded-lg shadow-lg transition-colors duration-300 overflow-hidden ${isDark ? 'bg-slate-700' : 'bg-white'
         }`}>
 
-        {/* Decorative background gradient */}
-        <div className={`absolute inset-0 opacity-10 ${isDark
-            ? 'bg-gradient-to-br from-amber-400/20 via-transparent to-orange-400/20'
-            : 'bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20'
+        {/* Decorative background gradient - NOW CONTAINED WITHIN THE CARD */}
+        <div className={`absolute inset-0 opacity-10 pointer-events-none ${isDark
+          ? 'bg-gradient-to-br from-amber-400/20 via-transparent to-orange-400/20'
+          : 'bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20'
           }`}></div>
 
-        <div className="relative">
+        <div className="relative z-10">
           <div className="text-center">
             {/* Logo */}
             <div className="flex justify-center items-center space-x-2 mb-6">
@@ -139,8 +143,8 @@ export default function SignInForm() {
             </div>
 
             <h1 className={`text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 transition-colors duration-300 ${isDark
-                ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
-                : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
+              ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
+              : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
               }`}>
               Welcome Back
             </h1>
@@ -152,8 +156,8 @@ export default function SignInForm() {
 
             {/* Visual separator */}
             <div className={`h-px mx-auto w-24 mb-6 transition-colors duration-300 ${isDark
-                ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
-                : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
+              ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
+              : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
               }`}></div>
           </div>
 
@@ -171,8 +175,8 @@ export default function SignInForm() {
                     <Input
                       {...field}
                       className={`transition-colors duration-300 border-2 focus:ring-2 ${isDark
-                          ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
-                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
+                        ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
                         }`}
                       placeholder="Enter your email or username"
                     />
@@ -193,8 +197,8 @@ export default function SignInForm() {
                       type="password"
                       {...field}
                       className={`transition-colors duration-300 border-2 focus:ring-2 ${isDark
-                          ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
-                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
+                        ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
+                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
                         }`}
                       placeholder="Enter your password"
                     />
@@ -207,9 +211,9 @@ export default function SignInForm() {
                 {isLoading ? (
                   <Button
                     disabled
-                    className={`w-full font-semibold px-6 py-3 text-lg transition-all duration-300 ${isDark
-                        ? 'bg-slate-600 hover:bg-slate-500 text-gray-300'
-                        : 'bg-gray-400 hover:bg-gray-300 text-white'
+                    className={`w-full font-semibold px-6 py-3 text-lg transition-all duration-300 cursor-not-allowed ${isDark
+                      ? 'bg-slate-600 hover:bg-slate-500 text-gray-300'
+                      : 'bg-gray-400 hover:bg-gray-300 text-white'
                       }`}
                   >
                     <Loader2 className="mr-2 h-5 w-5 animate-spin" />
@@ -218,9 +222,9 @@ export default function SignInForm() {
                 ) : (
                   <Button
                     type="submit"
-                    className={`w-full font-semibold px-6 py-3 text-lg transition-all duration-300 hover:scale-[1.02] focus:scale-[1.02] active:scale-[0.98] ${isDark
-                        ? 'bg-amber-400 hover:bg-amber-500 focus:bg-amber-500 active:bg-amber-600 text-slate-800 focus:ring-2 focus:ring-amber-400/50'
-                        : 'bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700 text-white focus:ring-2 focus:ring-blue-400/50'
+                    className={`w-full font-semibold px-6 py-3 text-lg transition-all duration-300 hover:scale-[1.02] focus:scale-[1.02] active:scale-[0.98] cursor-pointer ${isDark
+                      ? 'bg-amber-400 hover:bg-amber-500 focus:bg-amber-500 active:bg-amber-600 text-slate-800 focus:ring-2 focus:ring-amber-400/50'
+                      : 'bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700 text-white focus:ring-2 focus:ring-blue-400/50'
                       }`}
                   >
                     Sign In
@@ -236,7 +240,7 @@ export default function SignInForm() {
               Not a member yet?{' '}
               <Link
                 href="/sign-up"
-                className={`font-medium transition-colors duration-300 underline hover:no-underline ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-500 hover:text-blue-600'
+                className={`font-medium transition-colors duration-300 underline hover:no-underline cursor-pointer ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-500 hover:text-blue-600'
                   }`}
               >
                 Sign up
