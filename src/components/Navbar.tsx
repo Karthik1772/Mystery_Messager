@@ -42,8 +42,8 @@ function Navbar() {
 
   return (
     <nav className={`${isDark
-        ? 'bg-slate-800 border-amber-400 text-white'
-        : 'bg-white border-blue-500 text-gray-900'
+      ? 'bg-slate-800 border-amber-400 text-white'
+      : 'bg-white border-blue-500 text-gray-900'
       } border-b-4 shadow-lg transition-colors duration-300`}>
       <div className="container mx-auto px-6 py-4">
         <div className="flex flex-col md:flex-row justify-between items-center">
@@ -74,9 +74,9 @@ function Navbar() {
               <Button
                 onClick={toggleTheme}
                 className={`${isDark
-                    ? 'bg-slate-700 hover:bg-slate-600 text-amber-400 border-amber-400/30'
-                    : 'bg-gray-100 hover:bg-gray-200 text-blue-500 border-blue-200'
-                  } border px-3 py-2 transition-colors duration-300`}
+                  ? 'bg-slate-700 hover:bg-slate-600 text-amber-400 border-amber-400/30'
+                  : 'bg-gray-100 hover:bg-gray-200 text-blue-500 border-blue-200'
+                  } border px-3 py-2 transition-colors duration-300 cursor-pointer`}
                 variant="outline"
               >
                 {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -85,9 +85,9 @@ function Navbar() {
               <Button
                 onClick={() => signOut()}
                 className={`${isDark
-                    ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                    : 'bg-blue-500 hover:bg-blue-600 text-white'
-                  } font-semibold px-4 py-2 transition-colors duration-300`}
+                  ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                  : 'bg-blue-500 hover:bg-blue-600 text-white'
+                  } font-semibold px-4 py-2 transition-colors duration-300 cursor-pointer`}
               >
                 Logout
               </Button>
@@ -98,9 +98,9 @@ function Navbar() {
               <Button
                 onClick={toggleTheme}
                 className={`${isDark
-                    ? 'bg-slate-700 hover:bg-slate-600 text-amber-400 border-amber-400/30'
-                    : 'bg-gray-100 hover:bg-gray-200 text-blue-500 border-blue-200'
-                  } border px-3 py-2 transition-colors duration-300`}
+                  ? 'bg-slate-700 hover:bg-slate-600 text-amber-400 border-amber-400/30'
+                  : 'bg-gray-100 hover:bg-gray-200 text-blue-500 border-blue-200'
+                  } border px-3 py-2 transition-colors duration-300 cursor-pointer`}
                 variant="outline"
               >
                 {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -108,15 +108,15 @@ function Navbar() {
 
               <Link href="/sign-in">
                 <Button className={`${isDark
-                    ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                    : 'bg-blue-500 hover:bg-blue-600 text-white'
-                  } font-semibold px-6 py-2 transition-colors duration-300`}>
+                  ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                  : 'bg-blue-500 hover:bg-blue-600 text-white'
+                  } font-semibold px-6 py-2 transition-colors duration-300 cursor-pointer`}>
                   Login
                 </Button>
               </Link>
 
               <Link href="/sign-up" className={`${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-500 hover:text-blue-600'
-                } font-medium transition-colors duration-300`}>
+                } font-medium transition-colors duration-300 cursor-pointer`}>
                 Sign Up
               </Link>
             </div>
