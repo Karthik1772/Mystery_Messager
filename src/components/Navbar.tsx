@@ -75,7 +75,7 @@ function Navbar() {
             </span>
             <span className={`text-lg sm:text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
               } xs:hidden`}>
-              MM
+              Mystery Message
             </span>
           </Link>
 
