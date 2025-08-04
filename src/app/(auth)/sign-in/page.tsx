@@ -18,12 +18,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchema } from '@/schemas/signInSchema';
-import { Sun, Moon, MessageSquare, Loader2 } from 'lucide-react';
+import { Sun, Moon, MessageSquare, Loader2, Eye, EyeOff } from 'lucide-react';
 
 export default function SignInForm() {
   const router = useRouter();
   const [isDark, setIsDark] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   // Load theme preference from localStorage on component mount
   useEffect(() => {
@@ -122,12 +123,12 @@ export default function SignInForm() {
         }`}>
 
         {/* Decorative background gradient - NOW CONTAINED WITHIN THE CARD */}
-        <div className={`absolute inset-0 opacity-10 pointer-events-none ${isDark
+        <div className={`absolute inset-0 opacity-10 pointer-events-none -z-10 ${isDark
           ? 'bg-gradient-to-br from-amber-400/20 via-transparent to-orange-400/20'
           : 'bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20'
           }`}></div>
 
-        <div className="relative z-10">
+        <div className="relative z-20">
           <div className="text-center">
             {/* Logo */}
             <div className="flex justify-center items-center space-x-2 mb-6">
@@ -174,7 +175,7 @@ export default function SignInForm() {
                     </FormLabel>
                     <Input
                       {...field}
-                      className={`transition-colors duration-300 border-2 focus:ring-2 ${isDark
+                      className={`relative z-30 transition-colors duration-300 border-2 focus:ring-2 ${isDark
                         ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
                         : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
                         }`}
@@ -193,15 +194,32 @@ export default function SignInForm() {
                       }`}>
                       Password
                     </FormLabel>
-                    <Input
-                      type="password"
-                      {...field}
-                      className={`transition-colors duration-300 border-2 focus:ring-2 ${isDark
-                        ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
-                        }`}
-                      placeholder="Enter your password"
-                    />
+                    <div className="relative">
+                      <Input
+                        type={showPassword ? "text" : "password"}
+                        {...field}
+                        className={`relative z-30 pr-12 transition-colors duration-300 border-2 focus:ring-2 ${isDark
+                          ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
+                          }`}
+                        placeholder="Enter your password"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className={`absolute right-3 top-1/2 transform -translate-y-1/2 z-40 p-1 rounded-md transition-colors duration-200 hover:bg-opacity-20 ${isDark
+                          ? 'text-gray-400 hover:text-amber-400 hover:bg-amber-400'
+                          : 'text-gray-500 hover:text-blue-500 hover:bg-blue-500'
+                          }`}
+                        tabIndex={-1}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="w-5 h-5" />
+                        ) : (
+                          <Eye className="w-5 h-5" />
+                        )}
+                      </button>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import axios, { AxiosError } from 'axios';
-import { Loader2, MessageSquare } from 'lucide-react';
+import { Loader2, MessageSquare, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { signUpSchema } from '@/schemas/signUpSchema';
 
@@ -29,6 +29,7 @@ export default function SignUpForm() {
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isDark, setIsDark] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
   const debouncedUsername = useDebounce(username, 300);
 
   const router = useRouter();
@@ -171,32 +172,19 @@ export default function SignUpForm() {
                       field.onChange(e);
                       setUsername(e.target.value);
                     }}
+                    placeholder="Choose a unique username"
                     className={`transition-colors duration-300 ${isDark
-                        ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
+                      ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
                       }`}
                   />
-                  {isCheckingUsername && (
-                    <div className="flex items-center space-x-2">
-                      <Loader2 className={`w-4 h-4 animate-spin ${isDark ? 'text-amber-400' : 'text-blue-500'
-                        }`} />
-                      <span className={`text-sm ${isDark ? 'text-gray-300' : 'text-gray-600'
-                        }`}>
-                        Checking username...
-                      </span>
-                    </div>
-                  )}
                   {!isCheckingUsername && usernameMessage && (
-                    <p
-                      className={`text-sm ${usernameMessage === 'Username is unique'
-                          ? 'text-green-500'
-                          : 'text-red-500'
-                        }`}
-                    >
+                    <p className={`text-sm ${usernameMessage === 'Username is unique' ? 'text-green-500' : isDark ? 'text-orange-400' : 'text-red-600'}`}>
                       {usernameMessage}
                     </p>
                   )}
-                  <FormMessage />
+                  {!usernameMessage && <FormMessage className={`${isDark ? 'text-orange-400' : 'text-red-600'}`} />}
+                  <FormMessage className={`${isDark ? 'text-orange-400' : 'text-red-600'}`} />
                 </FormItem>
               )}
             />
@@ -212,16 +200,17 @@ export default function SignUpForm() {
                   <Input
                     {...field}
                     name="email"
+                    placeholder="Enter your email address"
                     className={`transition-colors duration-300 ${isDark
-                        ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
+                      ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
+                      : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
                       }`}
                   />
                   <p className={`text-sm transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'
                     }`}>
                     We will send you a verification code
                   </p>
-                  <FormMessage />
+                  <FormMessage className={`${isDark ? 'text-orange-400' : 'text-red-600'}`} />
                 </FormItem>
               )}
             />
@@ -235,24 +224,42 @@ export default function SignUpForm() {
                     }`}>
                     Password
                   </FormLabel>
-                  <Input
-                    type="password"
-                    {...field}
-                    name="password"
-                    className={`transition-colors duration-300 ${isDark
+                  <div className="relative">
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      {...field}
+                      name="password"
+                      placeholder="Create a strong password"
+                      className={`pr-12 transition-colors duration-300 ${isDark
                         ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
                         : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
-                      }`}
-                  />
-                  <FormMessage />
+                        }`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1 rounded-md transition-colors duration-200 hover:bg-opacity-20 ${isDark
+                        ? 'text-gray-400 hover:text-amber-400 hover:bg-amber-400'
+                        : 'text-gray-500 hover:text-blue-500 hover:bg-blue-500'
+                        }`}
+                      tabIndex={-1}
+                    >
+                      {showPassword ? (
+                        <EyeOff className="w-5 h-5" />
+                      ) : (
+                        <Eye className="w-5 h-5" />
+                      )}
+                    </button>
+                  </div>
+                  <FormMessage className={`${isDark ? 'text-orange-400' : 'text-red-600'}`} />
                 </FormItem>
               )}
             />
             <Button
               type="submit"
               className={`w-full font-semibold transition-colors duration-300 ${isDark
-                  ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
+                ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                : 'bg-blue-500 hover:bg-blue-600 text-white'
                 }`}
               disabled={isSubmitting}
             >
