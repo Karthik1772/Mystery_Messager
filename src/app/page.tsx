@@ -84,12 +84,12 @@ export default function Home() {
                 ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
                 : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
               }`}>
-              Dive into the World of Anonymous Feedback
+              Dive into the World of Anonymous Message
             </h1>
 
             <p className={`mt-3 md:mt-4 text-base md:text-lg transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
               }`}>
-              True Feedback - Where your identity remains a secret.
+              Mystery Messager - Where your identity remains a secret.
             </p>
 
             {/* Visual separator */}
@@ -118,64 +118,66 @@ export default function Home() {
           </section>
 
           {/* Carousel for Messages */}
-          <Carousel
-            plugins={[Autoplay({ delay: 3000 })]}
-            className="w-full max-w-lg md:max-w-xl"
-          >
-            <CarouselContent>
-              {messages.map((message, index) => (
-                <CarouselItem key={index} className="p-4">
-                  <Card className={`border-2 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 ${isDark
-                      ? 'bg-slate-800 border-slate-700 hover:border-amber-400/50 hover:shadow-amber-400/10'
-                      : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-blue-100'
-                    }`}>
-                    <CardHeader className="pb-3">
-                      <CardTitle className={`transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
-                        }`}>
-                        {message.title}
-                      </CardTitle>
-                      <div className={`h-px transition-colors duration-300 ${isDark
-                          ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
-                          : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
-                        }`}></div>
-                    </CardHeader>
-                    <CardContent className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-4">
-                      <div className={`flex-shrink-0 p-2 rounded-full transition-colors duration-300 ${isDark
-                          ? 'bg-amber-400/20 text-amber-400'
-                          : 'bg-blue-500/20 text-blue-500'
-                        }`}>
-                        <Mail className="w-4 h-4" />
-                      </div>
-                      <div className="flex-grow">
-                        <p className={`transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-700'
+          <div className="flex justify-center">
+            <Carousel
+              plugins={[Autoplay({ delay: 3000 })]}
+              className="w-full max-w-lg md:max-w-xl"
+            >
+              <CarouselContent>
+                {messages.map((message, index) => (
+                  <CarouselItem key={index} className="p-4">
+                    <Card className={`border-2 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300 ${isDark
+                        ? 'bg-slate-800 border-slate-700 hover:border-amber-400/50 hover:shadow-amber-400/10'
+                        : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-blue-100'
+                      }`}>
+                      <CardHeader className="pb-3">
+                        <CardTitle className={`transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
                           }`}>
-                          {message.content}
-                        </p>
-                        <div className="flex items-center mt-3">
-                          <div className={`w-2 h-2 rounded-full mr-2 transition-colors duration-300 ${isDark ? 'bg-amber-400' : 'bg-blue-500'
-                            }`}></div>
-                          <p className={`text-xs transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'
-                            }`}>
-                            {message.received}
-                          </p>
+                          {message.title}
+                        </CardTitle>
+                        <div className={`h-px transition-colors duration-300 ${isDark
+                            ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
+                            : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
+                          }`}></div>
+                      </CardHeader>
+                      <CardContent className="flex flex-col md:flex-row items-start space-y-2 md:space-y-0 md:space-x-4">
+                        <div className={`flex-shrink-0 p-2 rounded-full transition-colors duration-300 ${isDark
+                            ? 'bg-amber-400/20 text-amber-400'
+                            : 'bg-blue-500/20 text-blue-500'
+                          }`}>
+                          <Mail className="w-4 h-4" />
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
+                        <div className="flex-grow">
+                          <p className={`transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-700'
+                            }`}>
+                            {message.content}
+                          </p>
+                          <div className="flex items-center mt-3">
+                            <div className={`w-2 h-2 rounded-full mr-2 transition-colors duration-300 ${isDark ? 'bg-amber-400' : 'bg-blue-500'
+                              }`}></div>
+                            <p className={`text-xs transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'
+                              }`}>
+                              {message.received}
+                            </p>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
 
-            {/* Custom carousel navigation */}
-            <CarouselPrevious className={`transition-colors duration-300 ${isDark
-                ? 'bg-slate-700 hover:bg-slate-600 border-amber-400/30 text-amber-400'
-                : 'bg-white hover:bg-gray-100 border-blue-300 text-blue-500'
-              }`} />
-            <CarouselNext className={`transition-colors duration-300 ${isDark
-                ? 'bg-slate-700 hover:bg-slate-600 border-amber-400/30 text-amber-400'
-                : 'bg-white hover:bg-gray-100 border-blue-300 text-blue-500'
-              }`} />
-          </Carousel>
+              {/* Custom carousel navigation */}
+              <CarouselPrevious className={`transition-colors duration-300 ${isDark
+                  ? 'bg-slate-700 hover:bg-slate-600 border-amber-400/30 text-amber-400'
+                  : 'bg-white hover:bg-gray-100 border-blue-300 text-blue-500'
+                }`} />
+              <CarouselNext className={`transition-colors duration-300 ${isDark
+                  ? 'bg-slate-700 hover:bg-slate-600 border-amber-400/30 text-amber-400'
+                  : 'bg-white hover:bg-gray-100 border-blue-300 text-blue-500'
+                }`} />
+            </Carousel>
+          </div>
 
           {/* Call to action */}
           <div className="text-center mt-12">
@@ -189,7 +191,7 @@ export default function Home() {
             </Link>
             <p className={`mt-4 text-sm transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'
               }`}>
-              Join thousands of users sharing honest feedback
+              Join thousands of users sharing honest Message
             </p>
           </div>
         </div>
@@ -200,14 +202,14 @@ export default function Home() {
           ? 'bg-slate-800 text-gray-300 border-amber-400'
           : 'bg-gray-100 text-gray-600 border-blue-500'
         }`}>
-        <div className="flex justify-center items-center space-x-2 mb-2">
+        <div className="flex justify-center items-center space-x-2">
           <MessageSquare className={`w-5 h-5 ${isDark ? 'text-amber-400' : 'text-blue-500'
             }`} />
-          <span className="font-semibold">True Feedback</span>
+          <span className="font-semibold">Mystery Messager</span>
+          <span className="text-sm">
+            © {new Date().getFullYear()} Mystery Messager. All rights reserved.
+          </span>
         </div>
-        <p className="text-sm">
-          © {new Date().getFullYear()} True Feedback. All rights reserved.
-        </p>
       </footer>
     </>
   );

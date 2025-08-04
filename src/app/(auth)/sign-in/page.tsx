@@ -18,11 +18,12 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchema } from '@/schemas/signInSchema';
-import { Sun, Moon, MessageSquare } from 'lucide-react';
+import { Sun, Moon, MessageSquare, Loader2 } from 'lucide-react';
 
 export default function SignInForm() {
   const router = useRouter();
   const [isDark, setIsDark] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Load theme preference from localStorage on component mount
   useEffect(() => {
@@ -62,9 +63,10 @@ export default function SignInForm() {
     } else {
       document.documentElement.classList.remove('dark');
     }
+
+    // Dispatch custom event to notify other components of theme change
+    window.dispatchEvent(new CustomEvent('themeChange'));
   }, [isDark]);
-
-
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -75,31 +77,37 @@ export default function SignInForm() {
   });
 
   const { toast } = useToast();
+
   const onSubmit = async (data: z.infer<typeof signInSchema>) => {
-    const result = await signIn('credentials', {
-      redirect: false,
-      identifier: data.identifier,
-      password: data.password,
-    });
+    setIsLoading(true);
+    try {
+      const result = await signIn('credentials', {
+        redirect: false,
+        identifier: data.identifier,
+        password: data.password,
+      });
 
-    if (result?.error) {
-      if (result.error === 'CredentialsSignin') {
-        toast({
-          title: 'Login Failed',
-          description: 'Incorrect username or password',
-          variant: 'destructive',
-        });
-      } else {
-        toast({
-          title: 'Error',
-          description: result.error,
-          variant: 'destructive',
-        });
+      if (result?.error) {
+        if (result.error === 'CredentialsSignin') {
+          toast({
+            title: 'Login Failed',
+            description: 'Incorrect username or password',
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: 'Error',
+            description: result.error,
+            variant: 'destructive',
+          });
+        }
       }
-    }
 
-    if (result?.url) {
-      router.replace('/dashboard');
+      if (result?.url) {
+        router.replace('/dashboard');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -109,94 +117,132 @@ export default function SignInForm() {
       <div className={`w-full max-w-md p-8 space-y-8 rounded-lg shadow-lg transition-colors duration-300 ${isDark ? 'bg-slate-700' : 'bg-white'
         }`}>
 
-        <div className="text-center">
-          {/* Logo */}
-          <div className="flex justify-center items-center space-x-2 mb-6">
-            <MessageSquare className={`w-8 h-8 ${isDark ? 'text-amber-400' : 'text-blue-500'
-              }`} />
-            <span className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
+        {/* Decorative background gradient */}
+        <div className={`absolute inset-0 opacity-10 ${isDark
+            ? 'bg-gradient-to-br from-amber-400/20 via-transparent to-orange-400/20'
+            : 'bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20'
+          }`}></div>
+
+        <div className="relative">
+          <div className="text-center">
+            {/* Logo */}
+            <div className="flex justify-center items-center space-x-2 mb-6">
+              <div className={`p-2 rounded-full transition-colors duration-300 ${isDark ? 'bg-amber-400/20' : 'bg-blue-500/20'
+                }`}>
+                <MessageSquare className={`w-8 h-8 ${isDark ? 'text-amber-400' : 'text-blue-500'
+                  }`} />
+              </div>
+              <span className={`text-2xl font-bold transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
+                }`}>
+                Mystery Messager
+              </span>
+            </div>
+
+            <h1 className={`text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 transition-colors duration-300 ${isDark
+                ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
+                : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
               }`}>
-              True Feedback
-            </span>
+              Welcome Back
+            </h1>
+
+            <p className={`mb-4 transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+              Sign in to continue your secret conversations
+            </p>
+
+            {/* Visual separator */}
+            <div className={`h-px mx-auto w-24 mb-6 transition-colors duration-300 ${isDark
+                ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
+                : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
+              }`}></div>
           </div>
 
-          <h1 className={`text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
-            }`}>
-            Welcome Back
-          </h1>
-          <p className={`mb-4 transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-            Sign in to continue your secret conversations
-          </p>
-        </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                name="identifier"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={`text-lg font-medium transition-colors duration-300 ${isDark ? 'text-gray-200' : 'text-gray-700'
+                      }`}>
+                      Email/Username
+                    </FormLabel>
+                    <Input
+                      {...field}
+                      className={`transition-colors duration-300 border-2 focus:ring-2 ${isDark
+                          ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
+                        }`}
+                      placeholder="Enter your email or username"
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                name="password"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className={`text-lg font-medium transition-colors duration-300 ${isDark ? 'text-gray-200' : 'text-gray-700'
+                      }`}>
+                      Password
+                    </FormLabel>
+                    <Input
+                      type="password"
+                      {...field}
+                      className={`transition-colors duration-300 border-2 focus:ring-2 ${isDark
+                          ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
+                        }`}
+                      placeholder="Enter your password"
+                    />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-            <FormField
-              name="identifier"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={`transition-colors duration-300 ${isDark ? 'text-gray-200' : 'text-gray-700'
-                    }`}>
-                    Email/Username
-                  </FormLabel>
-                  <Input
-                    {...field}
-                    className={`transition-colors duration-300 ${isDark
-                        ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
+              <div className="pt-4">
+                {isLoading ? (
+                  <Button
+                    disabled
+                    className={`w-full font-semibold px-6 py-3 text-lg transition-all duration-300 ${isDark
+                        ? 'bg-slate-600 hover:bg-slate-500 text-gray-300'
+                        : 'bg-gray-400 hover:bg-gray-300 text-white'
                       }`}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className={`transition-colors duration-300 ${isDark ? 'text-gray-200' : 'text-gray-700'
-                    }`}>
-                    Password
-                  </FormLabel>
-                  <Input
-                    type="password"
-                    {...field}
-                    className={`transition-colors duration-300 ${isDark
-                        ? 'bg-slate-600 border-slate-500 text-white placeholder:text-gray-400 focus:border-amber-400 focus:ring-amber-400'
-                        : 'bg-white border-gray-300 text-gray-900 placeholder:text-gray-500 focus:border-blue-500 focus:ring-blue-500'
+                  >
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Signing In...
+                  </Button>
+                ) : (
+                  <Button
+                    type="submit"
+                    className={`w-full font-semibold px-6 py-3 text-lg transition-all duration-300 hover:scale-[1.02] focus:scale-[1.02] active:scale-[0.98] ${isDark
+                        ? 'bg-amber-400 hover:bg-amber-500 focus:bg-amber-500 active:bg-amber-600 text-slate-800 focus:ring-2 focus:ring-amber-400/50'
+                        : 'bg-blue-500 hover:bg-blue-600 focus:bg-blue-600 active:bg-blue-700 text-white focus:ring-2 focus:ring-blue-400/50'
                       }`}
-                  />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button
-              className={`w-full font-semibold transition-colors duration-300 ${isDark
-                  ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
-                }`}
-              type="submit"
-            >
-              Sign In
-            </Button>
-          </form>
-        </Form>
+                  >
+                    Sign In
+                  </Button>
+                )}
+              </div>
+            </form>
+          </Form>
 
-        <div className="text-center mt-4">
-          <p className={`transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
-            }`}>
-            Not a member yet?{' '}
-            <Link
-              href="/sign-up"
-              className={`font-medium transition-colors duration-300 ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-500 hover:text-blue-600'
-                }`}
-            >
-              Sign up
-            </Link>
-          </p>
+          <div className="text-center mt-6">
+            <p className={`transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
+              }`}>
+              Not a member yet?{' '}
+              <Link
+                href="/sign-up"
+                className={`font-medium transition-colors duration-300 underline hover:no-underline ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-500 hover:text-blue-600'
+                  }`}
+              >
+                Sign up
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

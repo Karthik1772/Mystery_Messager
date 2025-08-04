@@ -54,7 +54,7 @@ function Navbar() {
               }`} />
             <span className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
-              True Feedback
+              Mystery Messager
             </span>
           </Link>
 

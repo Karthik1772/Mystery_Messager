@@ -140,13 +140,13 @@ export default function SignUpForm() {
               }`} />
             <span className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'
               }`}>
-              True Feedback
+              Mystery Messager
             </span>
           </div>
 
           <h1 className={`text-4xl font-extrabold tracking-tight lg:text-5xl mb-6 transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
             }`}>
-            Join True Feedback
+            Join Mystery Messager
           </h1>
           <p className={`mb-4 transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
             }`}>

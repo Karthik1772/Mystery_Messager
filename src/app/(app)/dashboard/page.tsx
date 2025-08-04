@@ -178,7 +178,7 @@ function UserDashboard() {
             </h1>
             <p className={`transition-colors duration-300 ${isDark ? 'text-gray-300' : 'text-gray-600'
               }`}>
-              Manage your anonymous feedback messages
+              Manage your anonymous Message messages
             </p>
           </div>
 
@@ -297,7 +297,7 @@ function UserDashboard() {
                   </div>
                   <p className="text-lg font-medium mb-2">No messages yet</p>
                   <p className="text-sm">
-                    Share your link to start receiving anonymous feedback!
+                    Share your link to start receiving anonymous Message!
                   </p>
                 </div>
               )}
