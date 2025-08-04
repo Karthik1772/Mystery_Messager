@@ -91,11 +91,11 @@ export default function VerifyAccount() {
 
   return (
     <div className={`flex justify-center items-center min-h-screen transition-colors duration-300 ${isDark
-        ? 'bg-slate-900'
+        ? 'bg-slate-800'
         : 'bg-gray-100'
       }`}>
       <div className={`w-full max-w-md p-8 space-y-8 rounded-lg shadow-xl transition-colors duration-300 relative overflow-hidden ${isDark
-          ? 'bg-slate-800 shadow-amber-400/10'
+          ? 'bg-slate-700 shadow-amber-400/10'
           : 'bg-white shadow-blue-500/10'
         }`}>
 
