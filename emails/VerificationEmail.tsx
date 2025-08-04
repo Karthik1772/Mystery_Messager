@@ -1,4 +1,4 @@
-function generateVerificationEmailHTML(username: string, otp: string) {
+function generateVerificationEmailHTML(username: string, verifyCode: string) {
   return `
     <!DOCTYPE html>
     <html lang="en" dir="ltr">
@@ -78,7 +78,7 @@ function generateVerificationEmailHTML(username: string, otp: string) {
           </p>
           
           <div class="otp-code">
-            ${otp}
+            ${verifyCode}
           </div>
           
           <p class="disclaimer">
@@ -96,3 +96,5 @@ function generateVerificationEmailHTML(username: string, otp: string) {
     </html>
   `;
 }
+
+export default generateVerificationEmailHTML;

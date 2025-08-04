@@ -1,5 +1,8 @@
+// import { resend } from "@/lib/resend";
 import { transporter } from '@/lib/nodemailer';
+import generateVerificationEmailHTML from "../../emails/VerificationEmail";
 import { ApiResponse } from '@/types/ApiResponse';
+
 export async function sendVerificationEmail(
   email: string,
   username: string,
