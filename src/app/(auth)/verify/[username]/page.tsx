@@ -197,7 +197,7 @@ export default function VerifyAccount() {
           <div className="text-center mt-6">
             <p className={`text-sm transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'
               }`}>
-              Didn't receive the code? Check your spam folder or{' '}
+              Didn&#39;t receive the code? Check your spam folder or{' '}
               <button
                 className={`underline hover:no-underline transition-colors duration-300 ${isDark ? 'text-amber-400 hover:text-amber-300' : 'text-blue-500 hover:text-blue-600'
                   }`}
