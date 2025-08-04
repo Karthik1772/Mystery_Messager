@@ -39,36 +39,6 @@ export default function Home() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   useEffect(() => {
-    // Load theme preference and listen for changes
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      // Default to system preference
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-
-    // Listen for theme changes from other components
-    const handleThemeChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      if (currentTheme) {
-        setIsDark(currentTheme === 'dark');
-      }
-    };
-
-    // Listen for storage changes (when localStorage is updated from another component)
-    window.addEventListener('storage', handleThemeChange);
-
-    // Listen for custom theme change events
-    window.addEventListener('themeChange', handleThemeChange);
-
-    return () => {
-      window.removeEventListener('storage', handleThemeChange);
-      window.removeEventListener('themeChange', handleThemeChange);
-    };
-  }, []);
-
-  useEffect(() => {
     // Auto-advance carousel
     const interval = setInterval(() => {
       setCurrentMessageIndex((prev) => (prev + 1) % messages.length);
@@ -85,7 +55,20 @@ export default function Home() {
     setCurrentMessageIndex((prev) => (prev - 1 + messages.length) % messages.length);
   };
 
+  // Navigation function for the Get Started button
+  const handleGetStarted = () => {
+    // Option 1: If using Next.js router
+    // router.push('/sign-in');
 
+    // Option 2: If using React Router
+    // navigate('/sign-in');
+
+    // Option 3: Simple window.location redirect
+    window.location.href = '/sign-in';
+
+    // Option 4: For demonstration - show alert (remove this in production)
+    // alert('Redirecting to sign-in page...');
+  };
 
   return (
     <div className={`min-h-screen flex flex-col transition-colors duration-300 ${isDark ? 'bg-slate-900 text-white' : 'bg-gray-50 text-gray-900'
@@ -95,8 +78,8 @@ export default function Home() {
 
         {/* Animated background elements */}
         <div className={`absolute inset-0 opacity-10 ${isDark
-            ? 'bg-gradient-to-br from-amber-400/10 via-transparent to-orange-400/10'
-            : 'bg-gradient-to-br from-blue-400/10 via-transparent to-purple-400/10'
+          ? 'bg-gradient-to-br from-amber-400/10 via-transparent to-orange-400/10'
+          : 'bg-gradient-to-br from-blue-400/10 via-transparent to-purple-400/10'
           }`}></div>
 
         {/* Floating decorative elements */}
@@ -109,15 +92,15 @@ export default function Home() {
           <section className="text-center mb-8 md:mb-12">
             {/* Hero icon */}
             <div className={`mx-auto w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center mb-4 sm:mb-6 transition-colors duration-300 ${isDark
-                ? 'bg-amber-400/20 text-amber-400'
-                : 'bg-blue-500/20 text-blue-500'
+              ? 'bg-amber-400/20 text-amber-400'
+              : 'bg-blue-500/20 text-blue-500'
               }`}>
               <MessageSquare className="w-8 h-8 sm:w-10 sm:h-10" />
             </div>
 
             <h1 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 px-2 transition-colors duration-300 ${isDark
-                ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
-                : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
+              ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
+              : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
               }`}>
               Dive into the World of Anonymous Messages
             </h1>
@@ -129,22 +112,22 @@ export default function Home() {
 
             {/* Visual separator */}
             <div className={`h-px mx-auto w-24 sm:w-32 mt-4 sm:mt-6 mb-6 sm:mb-8 transition-colors duration-300 ${isDark
-                ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
-                : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
+              ? 'bg-gradient-to-r from-transparent via-amber-400/50 to-transparent'
+              : 'bg-gradient-to-r from-transparent via-blue-400/50 to-transparent'
               }`}></div>
 
             {/* Feature highlights */}
             <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3 sm:gap-6 mb-6 sm:mb-8 px-4">
               <div className={`flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 rounded-full border transition-colors duration-300 ${isDark
-                  ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
-                  : 'bg-white/50 border-blue-300/50 text-blue-600'
+                ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
+                : 'bg-white/50 border-blue-300/50 text-blue-600'
                 }`}>
                 <Shield className="w-4 h-4" />
                 <span className="text-xs sm:text-sm font-medium">100% Anonymous</span>
               </div>
               <div className={`flex items-center justify-center space-x-2 px-3 sm:px-4 py-2 rounded-full border transition-colors duration-300 ${isDark
-                  ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
-                  : 'bg-white/50 border-blue-300/50 text-blue-600'
+                ? 'bg-slate-800/50 border-amber-400/30 text-amber-400'
+                : 'bg-white/50 border-blue-300/50 text-blue-600'
                 }`}>
                 <Users className="w-4 h-4" />
                 <span className="text-xs sm:text-sm font-medium">Secure & Private</span>
@@ -164,8 +147,8 @@ export default function Home() {
                   {messages.map((message, index) => (
                     <div key={index} className="w-full flex-shrink-0 px-2 sm:px-4">
                       <Card className={`border-2 transition-colors duration-300 h-full ${isDark
-                          ? 'bg-slate-800 border-slate-700'
-                          : 'bg-white border-gray-200'
+                        ? 'bg-slate-800 border-slate-700'
+                        : 'bg-white border-gray-200'
                         }`}>
                         <CardHeader className="pb-2 sm:pb-3">
                           <CardTitle className={`text-sm sm:text-base md:text-lg transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
@@ -173,14 +156,14 @@ export default function Home() {
                             {message.title}
                           </CardTitle>
                           <div className={`h-px transition-colors duration-300 ${isDark
-                              ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
-                              : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
+                            ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
+                            : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
                             }`}></div>
                         </CardHeader>
                         <CardContent className="flex flex-col sm:flex-row items-start space-y-2 sm:space-y-0 sm:space-x-3 md:space-x-4">
                           <div className={`flex-shrink-0 p-1.5 sm:p-2 rounded-full transition-colors duration-300 ${isDark
-                              ? 'bg-amber-400/20 text-amber-400'
-                              : 'bg-blue-500/20 text-blue-500'
+                            ? 'bg-amber-400/20 text-amber-400'
+                            : 'bg-blue-500/20 text-blue-500'
                             }`}>
                             <Mail className="w-3 h-3 sm:w-4 sm:h-4" />
                           </div>
@@ -209,8 +192,8 @@ export default function Home() {
               <button
                 onClick={prevMessage}
                 className={`absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-2 sm:-translate-x-4 p-1.5 sm:p-2 rounded-full transition-all duration-300 hover:scale-110 ${isDark
-                    ? 'bg-slate-800/80 text-amber-400 border border-amber-400/30 hover:bg-slate-700'
-                    : 'bg-white/80 text-blue-500 border border-blue-300/50 hover:bg-gray-50'
+                  ? 'bg-slate-800/80 text-amber-400 border border-amber-400/30 hover:bg-slate-700'
+                  : 'bg-white/80 text-blue-500 border border-blue-300/50 hover:bg-gray-50'
                   }`}
               >
                 <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -219,8 +202,8 @@ export default function Home() {
               <button
                 onClick={nextMessage}
                 className={`absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-2 sm:translate-x-4 p-1.5 sm:p-2 rounded-full transition-all duration-300 hover:scale-110 ${isDark
-                    ? 'bg-slate-800/80 text-amber-400 border border-amber-400/30 hover:bg-slate-700'
-                    : 'bg-white/80 text-blue-500 border border-blue-300/50 hover:bg-gray-50'
+                  ? 'bg-slate-800/80 text-amber-400 border border-amber-400/30 hover:bg-slate-700'
+                  : 'bg-white/80 text-blue-500 border border-blue-300/50 hover:bg-gray-50'
                   }`}
               >
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -233,8 +216,8 @@ export default function Home() {
                     key={index}
                     onClick={() => setCurrentMessageIndex(index)}
                     className={`w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full transition-all duration-300 ${index === currentMessageIndex
-                        ? isDark ? 'bg-amber-400' : 'bg-blue-500'
-                        : isDark ? 'bg-slate-600' : 'bg-gray-300'
+                      ? isDark ? 'bg-amber-400' : 'bg-blue-500'
+                      : isDark ? 'bg-slate-600' : 'bg-gray-300'
                       }`}
                   />
                 ))}
@@ -244,10 +227,13 @@ export default function Home() {
 
           {/* Call to action */}
           <div className="text-center px-4">
-            <Button className={`transition-all duration-300 hover:scale-105 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base md:text-lg ${isDark
+            <Button
+              onClick={handleGetStarted}
+              className={`transition-all duration-300 hover:scale-105 font-semibold px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base md:text-lg ${isDark
                 ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
                 : 'bg-blue-500 hover:bg-blue-600 text-white'
-              }`}>
+                }`}
+            >
               Get Started Today
             </Button>
             <p className={`mt-3 sm:mt-4 text-xs sm:text-sm transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'
@@ -260,8 +246,8 @@ export default function Home() {
 
       {/* Footer */}
       <footer className={`text-center p-3 sm:p-4 md:p-6 transition-colors duration-300 border-t-2 ${isDark
-          ? 'bg-slate-800 text-gray-300 border-amber-400'
-          : 'bg-gray-100 text-gray-600 border-blue-500'
+        ? 'bg-slate-800 text-gray-300 border-amber-400'
+        : 'bg-gray-100 text-gray-600 border-blue-500'
         }`}>
         <div className="flex flex-col sm:flex-row justify-center items-center space-y-1 sm:space-y-0 sm:space-x-2">
           <div className="flex items-center space-x-2">
