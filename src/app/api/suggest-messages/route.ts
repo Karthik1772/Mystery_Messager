@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY!);
 
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
     const prompt = `
 Create a list of three open-ended and engaging questions formatted as a single string. 
