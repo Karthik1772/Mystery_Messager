@@ -129,20 +129,20 @@ export default function SendMessage() {
 
   return (
     <div className={`container mx-auto my-8 p-6 rounded-lg max-w-4xl transition-colors duration-300 ${isDark
-        ? 'bg-slate-800 text-white'
-        : 'bg-white text-gray-900'
+      ? 'bg-slate-800 text-white'
+      : 'bg-white text-gray-900'
       }`}>
       <div className="relative">
         {/* Decorative background gradient */}
         <div className={`absolute inset-0 rounded-lg opacity-20 ${isDark
-            ? 'bg-gradient-to-br from-amber-400/20 via-transparent to-orange-400/20'
-            : 'bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20'
+          ? 'bg-gradient-to-br from-amber-400/20 via-transparent to-orange-400/20'
+          : 'bg-gradient-to-br from-blue-400/20 via-transparent to-purple-400/20'
           }`}></div>
 
         <div className="relative">
           <h1 className={`text-4xl font-bold mb-6 text-center transition-colors duration-300 ${isDark
-              ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
-              : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
+            ? 'text-white bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent'
+            : 'text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent'
             }`}>
             Public Profile Link
           </h1>
@@ -162,13 +162,13 @@ export default function SendMessage() {
                       <Textarea
                         placeholder="Write your anonymous message here"
                         className={`resize-none min-h-[120px] transition-colors duration-300 border-2 focus:ring-2 ${isDark
-                            ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
-                            : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
+                          ? 'bg-slate-700 border-slate-600 text-white placeholder-gray-400 focus:border-amber-400 focus:ring-amber-400/20'
+                          : 'bg-white border-gray-300 text-gray-900 placeholder-gray-500 focus:border-blue-400 focus:ring-blue-400/20'
                           }`}
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className={`transition-colors duration-300 ${isDark ? 'text-orange-400' : 'text-red-600'}`} />
                   </FormItem>
                 )}
               />
@@ -177,8 +177,8 @@ export default function SendMessage() {
                   <Button
                     disabled
                     className={`transition-all duration-300 font-semibold px-6 py-2 ${isDark
-                        ? 'bg-slate-600 hover:bg-slate-500 text-gray-300'
-                        : 'bg-gray-400 hover:bg-gray-300 text-white'
+                      ? 'bg-slate-600 hover:bg-slate-500 text-gray-300'
+                      : 'bg-gray-400 hover:bg-gray-300 text-white'
                       }`}
                   >
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -189,8 +189,8 @@ export default function SendMessage() {
                     type="submit"
                     disabled={isLoading || !messageContent}
                     className={`transition-all duration-300 hover:scale-105 font-semibold px-6 py-2 ${isDark
-                        ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                        : 'bg-blue-500 hover:bg-blue-600 text-white'
+                      ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                      : 'bg-blue-500 hover:bg-blue-600 text-white'
                       }`}
                   >
                     Send It
@@ -205,8 +205,8 @@ export default function SendMessage() {
               <Button
                 onClick={fetchSuggestedMessages}
                 className={`my-4 transition-all duration-300 hover:scale-105 font-semibold px-4 py-2 border ${isDark
-                    ? 'bg-slate-700 hover:bg-slate-600 text-amber-400 border-amber-400/30'
-                    : 'bg-gray-100 hover:bg-gray-200 text-blue-500 border-blue-200'
+                  ? 'bg-slate-700 hover:bg-slate-600 text-amber-400 border-amber-400/30'
+                  : 'bg-gray-100 hover:bg-gray-200 text-blue-500 border-blue-200'
                   }`}
                 disabled={isSuggestLoading}
                 variant="outline"
@@ -221,8 +221,8 @@ export default function SendMessage() {
             </div>
 
             <Card className={`transition-colors duration-300 border-2 ${isDark
-                ? 'bg-slate-700 border-slate-600'
-                : 'bg-white border-gray-200'
+              ? 'bg-slate-700 border-slate-600'
+              : 'bg-white border-gray-200'
               }`}>
               <CardHeader>
                 <h3 className={`text-xl font-semibold transition-colors duration-300 ${isDark ? 'text-white' : 'text-gray-900'
@@ -230,21 +230,21 @@ export default function SendMessage() {
                   Messages
                 </h3>
                 <div className={`h-px transition-colors duration-300 ${isDark
-                    ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
-                    : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
+                  ? 'bg-gradient-to-r from-transparent via-amber-400/30 to-transparent'
+                  : 'bg-gradient-to-r from-transparent via-blue-300/50 to-transparent'
                   }`}></div>
               </CardHeader>
               <CardContent className="flex flex-col space-y-4">
                 {error ? (
-                  <p className="text-red-500">{error.message}</p>
+                  <p className={`transition-colors duration-300 ${isDark ? 'text-orange-400' : 'text-red-500'}`}>{error.message}</p>
                 ) : (
                   parseStringMessages(completion).map((message, index) => (
                     <Button
                       key={index}
                       variant="outline"
                       className={`mb-2 transition-all duration-300 hover:scale-[1.02] border font-medium ${isDark
-                          ? 'bg-slate-700 border-amber-400/30 text-amber-400 hover:bg-slate-600'
-                          : 'bg-gray-100 border-blue-200 text-blue-500 hover:bg-gray-200'
+                        ? 'bg-slate-700 border-amber-400/30 text-amber-400 hover:bg-slate-600'
+                        : 'bg-gray-100 border-blue-200 text-blue-500 hover:bg-gray-200'
                         }`}
                       onClick={() => handleMessageClick(message)}
                     >
@@ -266,8 +266,8 @@ export default function SendMessage() {
             </div>
             <Link href={'/sign-up'}>
               <Button className={`transition-all duration-300 hover:scale-105 font-semibold px-6 py-2 ${isDark
-                  ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
-                  : 'bg-blue-500 hover:bg-blue-600 text-white'
+                ? 'bg-amber-400 hover:bg-amber-500 text-slate-800'
+                : 'bg-blue-500 hover:bg-blue-600 text-white'
                 }`}>
                 Create Your Account
               </Button>
