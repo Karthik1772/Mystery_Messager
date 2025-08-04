@@ -1,6 +1,4 @@
-// import { resend } from "@/lib/resend";
-import {transporter} from '@/lib/nodemailer';
-import VerificationEmail from "../../emails/VerificationEmail";
+import { transporter } from '@/lib/nodemailer';
 import { ApiResponse } from '@/types/ApiResponse';
 export async function sendVerificationEmail(
   email: string,
@@ -9,10 +7,10 @@ export async function sendVerificationEmail(
 ): Promise<ApiResponse> {
   try {
     const res = await transporter.sendMail({
-      from: `"Mystery Message" ${process.env.NODEMAILER_USER_EMAIL}`,  
-      to: email, 
-      subject: "Mystery Message Verification Code ", 
-      text: `Your verification code is: ${verifyCode}`,
+      from: `"Mystery Message" ${process.env.NODEMAILER_USER_EMAIL}`,
+      to: email,
+      subject: "Mystery Message Verification Code ",
+      html: generateVerificationEmailHTML(username, verifyCode)
     });
     return { success: true, message: 'Verification email sent successfully.' };
   } catch (emailError) {

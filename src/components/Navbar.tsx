@@ -176,8 +176,8 @@ function Navbar() {
 
         {/* Mobile Menu */}
         <div className={`lg:hidden transition-all duration-300 ease-in-out ${isMobileMenuOpen
-            ? 'max-h-screen opacity-100 pb-4'
-            : 'max-h-0 opacity-0 overflow-hidden'
+          ? 'max-h-screen opacity-100 pb-4'
+          : 'max-h-0 opacity-0 overflow-hidden'
           }`}>
           <div className={`border-t ${isDark ? 'border-slate-600' : 'border-gray-200'} pt-4 space-y-4`}>
             {session ? (

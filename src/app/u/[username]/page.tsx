@@ -271,7 +271,7 @@ export default function SendMessage() {
                         {parseStringMessages(completion ? JSON.parse(completion).message : '').length === 0 ? (
                           <div className={`text-center py-8 transition-colors duration-300 ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
                             <Sparkles className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                              <p className="text-sm">Click &quot;Get Message Ideas&quot; to see suggestions</p>
+                            <p className="text-sm">Click &quot;Get Message Ideas&quot; to see suggestions</p>
                           </div>
                         ) : (
                           <div className="grid grid-cols-1 gap-3">
