@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Mail, MessageSquare, Shield, Users, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useTheme } from '@/hooks/useTheme';
 
 // Sample messages data
 const messages = [
@@ -35,7 +36,7 @@ const messages = [
 ];
 
 export default function Home() {
-  const [isDark, setIsDark] = useState(true);
+  const isDark = useTheme(); // Use the custom theme hook
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
 
   useEffect(() => {

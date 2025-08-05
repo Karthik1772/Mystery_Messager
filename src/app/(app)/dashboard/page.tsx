@@ -15,44 +15,15 @@ import { useSession } from 'next-auth/react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { AcceptMessageSchema } from '@/schemas/acceptMessageSchema';
+import { useTheme } from '@/hooks/useTheme'; 
 
 function UserDashboard() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isSwitchLoading, setIsSwitchLoading] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  const isDark = useTheme(); // Use the custom hook instead of local state and effects
 
   const { toast } = useToast();
-
-  // Load theme preference and listen for changes
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      // Default to system preference
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-
-    // Listen for theme changes from other components
-    const handleThemeChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      if (currentTheme) {
-        setIsDark(currentTheme === 'dark');
-      }
-    };
-
-    // Listen for storage changes (when localStorage is updated from another component)
-    window.addEventListener('storage', handleThemeChange);
-
-    // Listen for custom theme change events
-    window.addEventListener('themeChange', handleThemeChange);
-
-    return () => {
-      window.removeEventListener('storage', handleThemeChange);
-      window.removeEventListener('themeChange', handleThemeChange);
-    };
-  }, []);
 
   const handleDeleteMessage = (messageId: string) => {
     setMessages(messages.filter((message) => message._id.toString() !== messageId));

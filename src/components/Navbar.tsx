@@ -6,39 +6,28 @@ import { useSession, signOut } from 'next-auth/react';
 import { Button } from './ui/button';
 import { User, MessageSquare, Sun, Moon, Menu, X } from 'lucide-react';
 import { User as NextAuthUser } from 'next-auth';
+import { useTheme } from '@/hooks/useTheme';
 
 function Navbar() {
   const { data: session } = useSession();
   const user: NextAuthUser = session?.user;
-  const [isDark, setIsDark] = useState(true);
+  const isDark = useTheme(); // Use the custom hook instead of local state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Load theme preference from localStorage on component mount
+  // Apply theme to document whenever isDark changes
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      // Default to system preference
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-  }, []);
-
-  // Save theme preference and apply to document
-  useEffect(() => {
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
     if (isDark) {
       document.documentElement.classList.add('dark');
     } else {
       document.documentElement.classList.remove('dark');
     }
-
-    // Dispatch custom event to notify other components of theme change
-    window.dispatchEvent(new CustomEvent('themeChange'));
   }, [isDark]);
 
   const toggleTheme = () => {
-    setIsDark(!isDark);
+    // Toggle theme in localStorage and dispatch event
+    const newTheme = isDark ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    window.dispatchEvent(new CustomEvent('themeChange'));
   };
 
   const toggleMobileMenu = () => {

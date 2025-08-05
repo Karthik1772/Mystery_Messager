@@ -22,48 +22,19 @@ import axios, { AxiosError } from 'axios';
 import { Loader2, MessageSquare, Eye, EyeOff } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { signUpSchema } from '@/schemas/signUpSchema';
+import { useTheme } from '@/hooks/useTheme'; 
 
 export default function SignUpForm() {
   const [username, setUsername] = useState('');
   const [usernameMessage, setUsernameMessage] = useState('');
   const [isCheckingUsername, setIsCheckingUsername] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isDark, setIsDark] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const debouncedUsername = useDebounce(username, 300);
 
   const router = useRouter();
   const { toast } = useToast();
-
-  // Load theme preference and listen for changes
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      // Default to system preference
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-
-    // Listen for theme changes from other components
-    const handleThemeChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      if (currentTheme) {
-        setIsDark(currentTheme === 'dark');
-      }
-    };
-
-    // Listen for storage changes (when localStorage is updated from another component)
-    window.addEventListener('storage', handleThemeChange);
-
-    // Listen for custom theme change events
-    window.addEventListener('themeChange', handleThemeChange);
-
-    return () => {
-      window.removeEventListener('storage', handleThemeChange);
-      window.removeEventListener('themeChange', handleThemeChange);
-    };
-  }, []);
+  const isDark = useTheme(); // Use the custom hook
 
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),

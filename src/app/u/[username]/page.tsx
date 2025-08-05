@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -25,6 +25,7 @@ import { ApiResponse } from '@/types/ApiResponse';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { messageSchema } from '@/schemas/messageSchema';
+import { useTheme } from '@/hooks/useTheme'; // Import the custom hook
 
 const specialChar = '||';
 
@@ -38,37 +39,7 @@ const initialMessageString = { message: "What's your favorite movie?||Do you hav
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
-  const [isDark, setIsDark] = useState(true);
-
-  // Load theme preference and listen for changes
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      // Default to system preference
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-
-    // Listen for theme changes from other components
-    const handleThemeChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      if (currentTheme) {
-        setIsDark(currentTheme === 'dark');
-      }
-    };
-
-    // Listen for storage changes (when localStorage is updated from another component)
-    window.addEventListener('storage', handleThemeChange);
-
-    // Listen for custom theme change events
-    window.addEventListener('themeChange', handleThemeChange);
-
-    return () => {
-      window.removeEventListener('storage', handleThemeChange);
-      window.removeEventListener('themeChange', handleThemeChange);
-    };
-  }, []);
+  const isDark = useTheme(); // Use the custom hook
 
   const {
     complete,

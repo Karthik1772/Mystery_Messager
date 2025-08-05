@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { signIn } from 'next-auth/react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
   Form,
   FormField,
@@ -19,59 +19,13 @@ import { useRouter } from 'next/navigation';
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchema } from '@/schemas/signInSchema';
 import { Sun, Moon, MessageSquare, Loader2, Eye, EyeOff } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme'; 
 
 export default function SignInForm() {
   const router = useRouter();
-  const [isDark, setIsDark] = useState(true);
+  const isDark = useTheme(); // Use the custom hook instead of local state and effects
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-
-  // Load theme preference from localStorage on component mount
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-      setIsDark(savedTheme === 'dark');
-    } else {
-      // Default to system preference
-      setIsDark(window.matchMedia('(prefers-color-scheme: dark)').matches);
-    }
-
-    // Listen for theme changes from other components
-    const handleThemeChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      if (currentTheme) {
-        setIsDark(currentTheme === 'dark');
-      }
-    };
-
-    // Listen for storage changes (when localStorage is updated from another component)
-    window.addEventListener('storage', handleThemeChange);
-
-    // Listen for custom theme change events
-    window.addEventListener('themeChange', handleThemeChange);
-
-    return () => {
-      window.removeEventListener('storage', handleThemeChange);
-      window.removeEventListener('themeChange', handleThemeChange);
-    };
-  }, []);
-
-  // Only read theme, don't manage DOM classes (let Navbar handle this)
-  useEffect(() => {
-    const handleThemeChange = () => {
-      const currentTheme = localStorage.getItem('theme');
-      if (currentTheme) {
-        setIsDark(currentTheme === 'dark');
-      }
-    };
-
-    // Listen for custom theme change events
-    window.addEventListener('themeChange', handleThemeChange);
-
-    return () => {
-      window.removeEventListener('themeChange', handleThemeChange);
-    };
-  }, []);
 
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
